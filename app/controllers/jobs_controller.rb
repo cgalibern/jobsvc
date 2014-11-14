@@ -2,7 +2,8 @@ class JobsController < ApplicationController
   before_action :set_job, only: [:show, :edit, :update, :destroy]
 
   def index
-    @jobs = Job.all
+    @service_id = params[:service_id]
+    @jobs = Job.all.where(service_id: @service_id)
   end
 
   def show
@@ -10,6 +11,7 @@ class JobsController < ApplicationController
 
   def new
     @job = Job.new
+    @job.service_id = params[:service_id]
   end
 
   def edit
@@ -17,6 +19,7 @@ class JobsController < ApplicationController
 
   def create
     @job = Job.new(job_params)
+    @job.service_id = params[:service_id]
 
     respond_to do |format|
       if @job.save
@@ -42,9 +45,10 @@ class JobsController < ApplicationController
   end
 
   def destroy
+    service_id=@job.service_id
     @job.destroy
     respond_to do |format|
-      format.html { redirect_to jobs_url, notice: 'Job was successfully destroyed.' }
+      format.html { redirect_to service_jobs_url service_id, notice: 'Job was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
