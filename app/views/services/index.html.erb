@@ -1,6 +1,9 @@
 <h1>Listing services</h1>
 
-<table>
+<% if @services.size == 0%>
+	<em>No Services found</em>
+<% else %>
+ <table>
   <thead>
     <tr>
       <th>Svcname</th>
@@ -20,8 +23,8 @@
       </tr>
     <% end %>
   </tbody>
-</table>
-
+ </table>
+<% end %>
 <br>
 
 <%= link_to 'New Service', new_service_path %>
