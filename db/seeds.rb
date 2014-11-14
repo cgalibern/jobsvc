@@ -5,3 +5,20 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+puts "removing services..."
+Service.all.each { |svc| svc.destroy }
+puts "removing actions..."
+Job.all.each {|a| a.destroy }
+
+Service.create([
+	{id: 1, svcname: "svc1", status: "online"},
+	{id:2, svcname: "svc2", status: "offline"},
+	{id:3 ,svcname: "svc3", status: "offline"},
+])
+
+[ 'start', 'stop', 'refresh'].each { |a| Job.create( service_id: 1, jobname: a, status: 'unknown') }
+[ 'refresh', 'refresh'].each { |a| Job.create( service_id: 2, jobname: a, status: 'unknown') }
+
+puts "services created: #{Service.all.count()}"
+puts "jobs created: #{Job.all.count()}"
